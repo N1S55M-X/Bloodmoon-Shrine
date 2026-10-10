@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6b3d80f8-ba54-41c5-aab6-9628f928da65" alt="Bloodmoon Shrine" width="550">
+</p>
+
 ### An AI-Powered Dark Fantasy RPG
 
 **Bloodmoon Shrine** is an open-source, experimental dark fantasy role-playing game developed using **Python, pygame-ce, and local Qwen3 AI**.
