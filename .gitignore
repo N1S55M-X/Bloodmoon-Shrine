@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# AI model weights
+models/
+*.gguf
+*.pt
+*.pth
+*.safetensors
+
+# NPC memory
+npc_memory.json
+npc_memory_backup.json
+
+# Generated diagnostics
+sprite_diagnostics/
+
+# Secrets
+.env
+.env.*
+*.key
+
+# Logs
+*.log
