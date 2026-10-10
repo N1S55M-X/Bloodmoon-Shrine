@@ -1,18 +1,16 @@
- <p align="center">
+<p align="center">
   <img src="https://github.com/user-attachments/assets/6b3d80f8-ba54-41c5-aab6-9628f928da65" alt="Bloodmoon Shrine" width="550">
 </p>
 
-### An AI-Powered Dark Fantasy RPG
+### An Experimental Dark Fantasy RPG Built with Python and Local AI
 
-**Bloodmoon Shrine** is an open-source, experimental dark fantasy role-playing game developed using **Python, pygame-ce, local Qwen3 AI, and computer vision-based sprite automation**.
+**Bloodmoon Shrine** is an open-source 2D dark fantasy RPG prototype developed using **Python, pygame-ce, and Qwen3**.
 
-Explore mysterious shrines, haunted forests, and mystical valleys. Encounter ancient wizards, supernatural guardians, and characters capable of responding dynamically through artificial intelligence.
+The project combines illustrated fantasy environments, animated characters, exploration, locally generated NPC dialogue, and experimental AI-directed environmental events.
 
-The project combines **AI-driven character interactions, autonomous world events, automated sprite segmentation, and richly illustrated fantasy environments**.
+It also includes a **computer vision-based sprite automation workflow** developed to simplify the process of converting AI-generated character artwork into usable game animations.
 
-The central idea:
-
-**What if fantasy game worlds could react, remember, and evolve instead of following only predefined scripts?**
+The project explores two practical applications of AI in game development: using language models for character interactions and using computer vision to automate repetitive asset-processing tasks.
 
 ---
 
@@ -20,27 +18,25 @@ The central idea:
 
 ### 🏰 Bloodmoon Shrine
 
-A gothic sanctuary filled with ancient magic, mysterious characters, and hidden pathways.
+The starting area, containing the Warlock, Vael the Wizard, and the Shrine Master.
 
 <img width="1367" height="877" alt="Bloodmoon Shrine gameplay" src="https://github.com/user-attachments/assets/cce5caf0-2a0e-4168-a2e6-8f6f7edbaa2c" />
 
 ### 🌲 Haunted Forest
 
-A supernatural forest inhabited by an ancient guardian, magical portals, and mysterious environmental phenomena.
+A forest environment containing an animated Guardian, environmental effects, and a portal.
 
 <img width="1362" height="875" alt="Haunted Forest gameplay" src="https://github.com/user-attachments/assets/6fa049d4-ec24-4f3a-8420-a5bca5bf8fd8" />
 
-### 🧙 AI-Powered Wizard Dialogue
+### 🧙 AI-Powered NPC Dialogue
 
-Speak with Vael, an ancient wizard powered by a locally running language model.
-
-Unlike conventional NPCs with fixed dialogue trees, Vael generates responses dynamically.
+Vael uses a locally running Qwen3 model to generate responses to player messages.
 
 <img width="1371" height="887" alt="Vael AI dialogue" src="https://github.com/user-attachments/assets/11bde409-5e4b-4c26-9cdf-682310a9db62" />
 
 ### 🏔️ Mystic Valley
 
-Explore a mountainous fantasy environment with ancient ruins, waterfalls, and magical pathways.
+An explorable illustrated environment with pathways, ruins, and a portal.
 
 <img width="1365" height="862" alt="Mystic Valley gameplay" src="https://github.com/user-attachments/assets/ccbe6816-3e14-47ac-90a2-e435382acb5a" />
 
@@ -48,170 +44,183 @@ Explore a mountainous fantasy environment with ancient ruins, waterfalls, and ma
 
 ## ✨ Features
 
-### 🧠 Local AI-Powered Characters
+### Exploration and Character Movement
 
-- AI-driven conversations using Qwen3.
-- Local inference through `llama-cpp-python`.
-- Dynamic dialogue instead of exclusively predefined responses.
-- NPC conversation memory.
-- Experimental AI-directed environmental events.
-- Local AI inference without requiring a paid cloud API.
-
-### 👹 Supernatural Guardian
-
-The Haunted Forest contains an animated guardian with supernatural abilities:
-
-- Teleportation
-- Charging toward the player
-- Giant transformations
-- Jumpscare sequences
-- Vanishing and reappearing
-- Stalking behavior
-
-These actions are supported by the experimental Guardian Horror controller and can be selected through the AI World Director.
-
-### 🌍 Explorable Fantasy Environments
-
-Three environments are currently implemented:
-
-1. **Bloodmoon Shrine** — The starting sanctuary.
-2. **Mystic Valley** — A mountainous landscape with ancient ruins.
-3. **Haunted Forest** — A supernatural forest inhabited by an ancient guardian.
-
-### 🌫️ Dynamic Atmosphere
-
-- Fog and atmospheric effects.
-- Magical lighting overlays.
+- Three explorable environments: Bloodmoon Shrine, Mystic Valley, and Haunted Forest.
+- Player movement and running.
 - Animated character sprites.
-- Smoke and supernatural visual effects.
-- Environmental event generation.
-- Magical portals and scene transitions.
+- NPC interaction.
+- Portals and scene transitions.
+- Walkable-area collision system.
 
-### 🗺️ Custom Path and Collision System
+### Local AI Dialogue
 
-The game includes a path-editing system for defining walkable areas across illustrated environments.
+The Wizard NPC, Vael, uses **Qwen3-4B** through `llama-cpp-python` to generate dialogue locally.
 
-This allows detailed fantasy backgrounds to become explorable game worlds without requiring fully modeled 3D environments.
+The system includes player text input, generated responses, conversation history, and response polling to avoid blocking the main game loop.
+
+The language model runs locally, and its weights are not included in the repository.
+
+### Experimental AI World Director
+
+The Haunted Forest includes an experimental AI director implemented in `world_ai.py`.
+
+The system selects from predefined actions related to environmental effects and supernatural encounters. Pygame is responsible for executing the selected actions.
+
+This is a limited experimental system, not a fully autonomous game world.
+
+### Forest Guardian
+
+The Haunted Forest contains an animated Guardian with a separate horror controller, `guardian_horror.py`.
+
+The controller includes behaviors such as teleporting, charging, growing, stalking, vanishing, and jumpscare effects.
+
+These behaviors are still being tested and refined.
+
+### Dynamic Environmental Effects
+
+The game uses fog, particles, lighting overlays, smoke, and supernatural visual effects to add movement and atmosphere to illustrated backgrounds.
+
+### Custom Walkable-Area Editor
+
+A built-in editor allows walkable regions to be defined and saved for each environment.
+
+This makes it possible to use detailed 2D illustrations as explorable game scenes without constructing complete 3D environments.
 
 ---
 
-## 🤖 AI-Powered Sprite Segmentation and Animation Automation
+## 🤖 Computer Vision-Based Sprite Automation
 
-One of the project's major technical components is an **automated sprite-processing pipeline** designed to transform AI-generated character artwork into usable game sprites.
+### The Problem
 
-AI-generated sprite sheets often contain inconsistent spacing, overlapping poses, background artifacts, and character details that are difficult to extract manually.
+Bloodmoon Shrine uses AI-generated artwork for its fantasy characters and monsters.
 
-Bloodmoon Shrine explores the use of **computer vision, SAM 2.1 segmentation, and automated image processing** to simplify this workflow.
+However, generated artwork is not automatically compatible with a game engine.
 
-### How the Pipeline Works
+A sprite sheet may contain multiple poses with inconsistent spacing, unwanted backgrounds, overlapping character details, and variations in size or positioning.
+
+To animate a character in Pygame, individual frames need to be extracted, cleaned, aligned, resized, and organized into a predictable sprite atlas.
+
+Doing this manually for every new character would make asset creation increasingly time-consuming.
+
+### The Approach
+
+Rather than manually processing every sprite, I explored adapting existing **computer vision and image segmentation tools** to automate parts of the workflow.
+
+The sprite-processing scripts use image-processing techniques and **SAM 2.1 (Segment Anything Model 2)** to help identify and extract character artwork from generated sprite sheets.
+
+The extracted frames can then be prepared for the animation system used by the game.
+
+This was an integration and automation task: adapting an existing segmentation model to a specific asset-processing problem, rather than developing or training a new segmentation model.
+
+### Processing Pipeline
 
 ```text
-AI-Generated Character Artwork
-              |
-              v
-Computer Vision / SAM 2.1
-              |
-              v
-Character Segmentation
-              |
-              v
-Individual Sprite Extraction
-              |
-              v
-Background Removal and Cleanup
-              |
-              v
-Frame Alignment and Normalization
-              |
-              v
-Animation Atlas Generation
-              |
-              v
-pygame-ce AnimatedCharacter
-              |
-              v
-Animated Game Character
+AI-Generated Character Sprite Sheet
+                 |
+                 v
+       Input Image Processing
+                 |
+                 v
+       SAM 2.1 Segmentation
+                 |
+                 v
+      Character Mask Extraction
+                 |
+                 v
+     Individual Sprite Extraction
+                 |
+                 v
+    Background / Artifact Cleanup
+                 |
+                 v
+       Resizing and Alignment
+                 |
+                 v
+       Animation Atlas Output
+                 |
+                 v
+      pygame-ce Character System
 ```
 
-### Sprite Automation Features
+The workflow combines model-assisted segmentation with conventional image processing.
 
-- AI-assisted character segmentation.
-- Extraction of individual sprites from generated artwork.
-- Background removal and transparency processing.
-- Sprite alignment and normalization.
-- Animation atlas generation.
-- Sprite inspection and diagnostic outputs.
-- Integration with the game's character animation system.
+### Implementation
 
-The project includes several sprite-processing utilities:
+The repository contains several scripts associated with this workflow:
 
-| File | Purpose |
+| Component | Role |
 |---|---|
-| `sprite_auto.py` | Sprite automation |
-| `sprite_auto_v4.py` | Updated sprite automation pipeline |
-| `sprite_processor.py` | Sprite processing utilities |
-| `inspect_hero.py` | Character inspection and debugging |
-| `sprite_auto_output/` | Generated atlases and previews |
-| `sprite_diagnostics/` | Diagnostic outputs |
+| `sprite_auto.py` | Sprite extraction automation |
+| `sprite_auto_v4.py` | Iterated version of the automation workflow |
+| `sprite_processor.py` | Image and sprite-processing utilities |
+| `inspect_hero.py` | Sprite inspection and debugging |
+| `sprite_auto_output/` | Generated sprite atlases and previews |
+| `sprite_diagnostics/` | Diagnostic outputs used during development |
+| `characters.py` | Character animation and sprite rendering |
 
-The SAM 2.1 model weights are not included in the repository and must be obtained separately if required by the sprite-processing workflow.
+The SAM 2.1 model is used locally. Its model weights are excluded from the repository.
 
-### ML-Aware Character Design
+### Adapting the Input to Improve Segmentation
 
-The project also explores generating artwork specifically for machine-learning-based sprite extraction.
+An important part of the development process was discovering that segmentation quality depended on how the original sprite sheet was generated.
 
-Characters are designed with clear silhouettes, consistent proportions, and sufficient separation between poses to improve segmentation quality.
+For example, when a staff, cape, or limb overlapped a neighboring pose, the segmentation process could incorrectly remove part of a character or include unwanted artwork.
 
-This reduces manual cleanup and helps maintain consistent animation assets.
+Instead of relying only on post-processing, I adjusted the **character-generation approach itself** to make the images easier for the segmentation model to process.
 
-### Long-Term Goal
+This included:
 
-The goal is to create a reusable pipeline capable of converting newly generated fantasy characters into game-ready assets with minimal manual intervention.
+- Keeping individual poses clearly separated.
+- Using more consistent character proportions.
+- Avoiding unnecessary overlap between neighboring frames.
+- Making silhouettes and character accessories easier to distinguish.
+- Reducing visual clutter around characters.
+- Inspecting the extracted sprites and adjusting the input artwork when necessary.
 
-**Character Concept → AI Artwork → Segmentation → Animation Atlas → Game Entity**
+This created an iterative workflow:
 
-Existing processing tools support parts of this workflow. Fully automatic character generation and game integration remain development goals.
+**Generate artwork → Process with segmentation → Inspect results → Identify errors → Adjust input → Process again**
+
+The same approach was used while developing character assets such as the Shrine Master and Forest Guardian.
+
+### What the Automation Achieves
+
+The workflow reduces the amount of repetitive manual work involved in preparing AI-generated character artwork for the game.
+
+It also provides a more consistent process for organizing character frames into animation assets.
+
+However, segmentation results are not always perfect. Some images still require inspection, corrections, or changes to the original artwork.
+
+The workflow is therefore best described as **AI-assisted sprite processing with partial automation**, rather than a fully autonomous sprite-generation system.
+
+### Development Focus
+
+This part of the project demonstrates the practical application of several techniques:
+
+- **Computer vision integration:** Applying an existing segmentation model to a game asset-processing task.
+- **Workflow automation:** Reducing repetitive image extraction and preparation steps.
+- **Pipeline development:** Connecting generated artwork, segmentation, image processing, and game rendering.
+- **Iterative debugging:** Inspecting failed extractions and improving the input or processing workflow.
+- **Model-aware input design:** Adjusting the structure of generated images to make them easier for the model to process.
+- **Tool adaptation:** Using an existing machine-learning tool outside its original demonstration context to solve a specific development problem.
+
+The longer-term goal is to improve reliability and reduce manual intervention when adding new characters and monsters.
 
 ---
 
-## 🌌 Experimental AI World Director
+## 🛠️ Technology Stack
 
-Beyond character dialogue, Bloodmoon Shrine experiments with an AI system capable of selecting events and actions within the game world.
-
-The World Director receives game context and selects from a predefined set of supported actions.
-
-Examples include:
-
-- Triggering supernatural Guardian behavior.
-- Modifying atmospheric effects.
-- Generating mysterious environmental messages.
-- Initiating magical visual effects.
-- Influencing the timing of horror encounters.
-
-### Architecture
-
-```text
-Player and Environment State
-             |
-             v
-      Qwen3 AI Director
-             |
-             v
-       Action Selection
-             |
-             v
-      Action Validation
-             |
-             v
-       pygame-ce Engine
-             |
-             v
-     Visible World Changes
-```
-
-The language model proposes supported actions while the game engine remains responsible for executing animations and updating the world.
-
-This is an experimental system, not yet a complete autonomous-world simulation.
+| Technology | Purpose |
+|---|---|
+| Python | Game logic and supporting tools |
+| pygame-ce | 2D rendering, animation, input, and collision |
+| Qwen3-4B | Local NPC dialogue and experimental world actions |
+| llama-cpp-python | Local language model inference |
+| SAM 2.1 | Character image segmentation |
+| Image-processing utilities | Sprite extraction and atlas preparation |
+| JSON | Configuration and NPC memory |
+| AI-generated artwork | Backgrounds and character assets |
 
 ---
 
@@ -221,27 +230,12 @@ This is an experimental system, not yet a complete autonomous-world simulation.
 |---|---|
 | W / A / S / D | Move |
 | Shift | Run |
-| E | Interact / Talk |
-| Enter | Send dialogue |
+| E | Interact |
+| Enter | Submit dialogue |
 | Escape | Close dialogue |
 | F2 | Path editor |
 | F3 | Debug mode |
 | F5 | Save path edits |
-
----
-
-## 🛠️ Technology Stack
-
-| Technology | Purpose |
-|---|---|
-| Python | Core programming language |
-| pygame-ce | Game engine and rendering |
-| Qwen3 | Local language model |
-| llama-cpp-python | Local AI inference |
-| SAM 2.1 | Computer vision-based segmentation |
-| Image-processing utilities | Sprite extraction and atlas generation |
-| JSON | Game configuration and NPC memory |
-| AI-generated artwork | Fantasy environments and character assets |
 
 ---
 
@@ -251,11 +245,11 @@ This is an experimental system, not yet a complete autonomous-world simulation.
 
 - Python 3.12 recommended.
 - Windows (current development platform).
-- pygame-ce.
-- llama-cpp-python.
-- A compatible locally downloaded Qwen3 GGUF model for AI features.
+- `pygame-ce`.
+- `llama-cpp-python`.
+- A compatible Qwen3 GGUF model for local AI dialogue.
 
-Optional sprite-processing utilities may require additional dependencies and separately downloaded segmentation model weights.
+Optional sprite-processing utilities may require additional Python dependencies and separately downloaded SAM 2.1 model weights.
 
 ### 1. Clone the Repository
 
@@ -270,25 +264,27 @@ cd Bloodmoon-Shrine
 python -m pip install pygame-ce llama-cpp-python
 ```
 
-Additional dependencies may be needed for sprite automation.
+Additional dependencies may be required for the sprite-processing utilities.
 
-### 3. Configure the AI Model
+### 3. Configure the Language Model
 
-Qwen3 model weights are not included in this repository because of their size.
+Download a compatible Qwen3 GGUF model separately.
 
-Download a compatible GGUF model separately and configure its local path according to `npc_ai.py` and `world_ai.py`.
+Configure its local path according to `npc_ai.py` and `world_ai.py`.
 
-### 4. Start the Game
+Model weights are not included in this repository.
+
+### 4. Run the Game
 
 ```bash
 python game.py
 ```
 
-**Note:** This is an experimental alpha release. Some features depend on local model configuration and may require additional setup.
+Some AI features require additional local configuration.
 
 ---
 
-## 🧩 Project Architecture
+## 🧩 Project Structure
 
 ```text
 Bloodmoon-Shrine/
@@ -314,114 +310,94 @@ Bloodmoon-Shrine/
 └── README.md
 ```
 
-### Core Systems
+### Main Components
 
-**Game Engine:** Handles movement, rendering, interaction, collision, and game updates.
+**`game.py`** — Main game loop, input handling, and integration of game systems.
 
-**Scene Manager:** Controls environments, transitions, portals, and visual scaling.
+**`characters.py`** — Character animation and sprite rendering.
 
-**NPC AI:** Provides locally generated conversations through Qwen3.
+**`scene_manager.py`** — Scene management, portals, and transitions.
 
-**World AI:** Experiments with AI-directed environmental and supernatural events.
+**`environment.py`** — Environmental visual effects.
 
-**Guardian Horror:** Executes supernatural Guardian animations and visual effects.
+**`npc_ai.py`** — Local language model interface for NPC dialogue.
 
-**Sprite Automation:** Uses computer vision and image processing to transform generated artwork into animation assets.
+**`world_ai.py`** — Experimental AI-based environmental action selection.
 
-**Character System:** Loads processed sprite atlases and handles animation, movement, and character rendering.
+**`guardian_horror.py`** — Guardian supernatural animations and effects.
+
+**Sprite-processing scripts** — Utilities for extracting and preparing character sprites.
 
 ---
 
 ## 🔮 Development Roadmap
 
-### Phase 1 — Intelligent Horror Encounters
+The following features are planned or under consideration.
 
-- Improved Guardian behavior.
-- Player awareness and tracking.
-- Context-sensitive jumpscares.
-- Environmental reactions.
-- Dynamic horror sequences.
+### AI and NPCs
 
-### Phase 2 — Advanced Sprite Automation
+- Improve NPC memory and context handling.
+- Reduce local AI inference overhead.
+- Allow NPCs to respond to more game-state information.
+- Improve the reliability of AI-selected actions.
 
-- Improved automatic pose detection.
-- Segmentation confidence checks.
-- Automatic sprite alignment.
-- Animation consistency validation.
-- Batch character processing.
-- Automatic animation atlas export.
-- Streamlined integration of processed characters into the game.
+### Sprite Processing and Automation
 
-### Phase 3 — Living Magical Entities
+- Improve segmentation accuracy for complex character artwork.
+- Reduce errors caused by overlapping poses and accessories.
+- Improve frame alignment and animation consistency.
+- Add better automated quality checks.
+- Reduce manual cleanup.
+- Support more character and monster sprite sheets.
 
-- Autonomous magical flames.
-- Interactive supernatural objects.
-- Individual entity states and memories.
-- AI-directed magical interactions.
+### Gameplay
 
-### Phase 4 — Autonomous Creatures
+- Improve Guardian behavior and encounters.
+- Add additional creatures and NPCs.
+- Develop combat and health systems.
+- Add quests, inventory, and progression.
+- Improve character and environment interactions.
 
-- Ghouls and spectral servants.
-- Guardian-controlled creature groups.
-- Coordinated movement and actions.
-- Creature interactions and relationships.
+### Environments
 
-### Phase 5 — Living Environments
+- Add animated environmental objects.
+- Improve fog, lighting, and weather effects.
+- Expand explorable locations.
+- Experiment with AI-directed environmental interactions.
 
-- Animated trees and vegetation.
-- Interactive roots and vines.
-- Dynamic environmental obstacles.
-- Magical environmental transformations.
+### Distribution
 
-### Phase 6 — AI-Directed World Generation
-
-- Expandable fantasy asset library.
-- AI-controlled object placement.
-- Dynamic encounters and events.
-- Persistent world changes.
-- Automated asset-processing integration.
-
-### Phase 7 — Emergent Fantasy Intelligence
-
-The long-term vision is a persistent fantasy world where characters possess goals, memories, relationships, and the ability to influence their surroundings.
-
-The proposed architecture is:
-
-**Perception → Goals → Planning → Actions → Consequences → Memory**
-
-The objective is to investigate how local AI agents, computer vision, asset automation, and traditional game systems can work together to produce believable, unpredictable fantasy experiences.
+- Improve installation and model configuration.
+- Package a Windows executable.
+- Investigate browser compatibility for a simplified version.
 
 ---
 
 ## ⚠️ Development Status
 
-**Experimental Alpha — Active Development**
+**Experimental Alpha — Work in Progress**
 
-Bloodmoon Shrine is currently a research-oriented indie game prototype.
+Bloodmoon Shrine currently includes basic exploration, character animation, collision editing, scene transitions, and locally generated NPC dialogue.
 
-The game is playable locally, with implemented exploration, character rendering, collision, AI-powered dialogue, and experimental supernatural behavior systems.
+The AI World Director, Guardian Horror controller, and sprite-processing tools are experimental components undergoing further development.
 
-The automated sprite-processing pipeline is under active development, and several planned autonomous-world systems are not yet implemented.
+The sprite automation workflow has been used to prepare game assets, but some manual inspection and adjustment are still necessary.
 
-The project is not yet a complete RPG and does not currently provide a packaged Windows executable or browser-playable release.
+The game currently runs from Python source code. A standalone executable and browser version are not yet available.
 
 ---
 
 ## 🤝 Contributions
 
-Contributions, suggestions, bug reports, and discussions are welcome.
+Bug reports, suggestions, and contributions are welcome, particularly in:
 
-Areas of interest include:
-
-- Game AI and autonomous agents.
 - Python game development.
 - Computer vision and image segmentation.
-- Automated sprite generation and animation.
-- Procedural world interactions.
-- NPC memory and behavior.
-- Fantasy animation.
-- Environmental simulation.
-- Game optimization.
+- Workflow automation.
+- Sprite processing and animation.
+- Local language models.
+- Game AI.
+- Environmental effects and optimization.
 
 ---
 
@@ -431,12 +407,10 @@ Areas of interest include:
 
 GitHub: https://github.com/N1S55M-X
 
-Project: https://github.com/N1S55M-X/Bloodmoon-Shrine
+Repository: https://github.com/N1S55M-X/Bloodmoon-Shrine
 
 ---
 
-*Bloodmoon Shrine — A fantasy world that doesn't just tell stories, but learns to create them.*
-
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/6b3d80f8-ba54-41c5-aab6-9628f928da65" alt="Bloodmoon Shrine Gothic Cathedral Valley" width="700">
+  <img src="https://github.com/user-attachments/assets/6b3d80f8-ba54-41c5-aab6-9628f928da65" alt="Bloodmoon Shrine" width="650">
 </p>
